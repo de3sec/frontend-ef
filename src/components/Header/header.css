@@ -1,35 +1,51 @@
-@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 
+.cartContainer {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 
+.itemsCount {
+  position: absolute;
+  font-size: 9px;
+  font-weight: bold;
+  bottom: 9px;
+  left: 19px;
+  top: 18px;
+}
 
 .socialbtns,
 .socialbtns ul,
 .socialbtns li {
-    margin: 0;
-    padding: 5px;
+  margin: 0;
+  padding: 5px;
 }
 
 .socialbtns li {
-    list-style: none outside none;
-    display: inline-block;
+  list-style: none outside none;
+  display: inline-block;
 }
 
 .socialbtns .fa {
-    width: 40px;
-    height: 28px;
-    color: #03FF1B;
-    background-color: #03FF1B;
-    border: 1px solid #000;
-    padding-top: 12px;
-    border-radius: 22px;
-    -moz-border-radius: 22px;
-    -webkit-border-radius: 22px;
-    -o-border-radius: 22px;
+  width: 40px;
+  height: 28px;
+  color: #03ff1b;
+  background-color: #03ff1b;
+  border: 1px solid #000;
+  padding-top: 12px;
+  border-radius: 22px;
+  -moz-border-radius: 22px;
+  -webkit-border-radius: 22px;
+  -o-border-radius: 22px;
 }
 
 .socialbtns .fa:hover {
-    color: #ffffff;
-    background-color: #000;
-    border: 1px solid #000;
+  color: #ffffff;
+  background-color: #000;
+  border: 1px solid #000;
 }
-

@@ -1,62 +1,54 @@
 import { loginFailure, loginStart, loginSuccess, logOut } from "./userRedux";
 import { publicRequest, userRequest } from "../requestMethods";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
-
-import {
-    getOrderStart,
-    getOrderSuccess,
-    getOrderFailure,
-
-  } from './orderRedux'
+import { getOrderStart, getOrderSuccess, getOrderFailure } from "./orderRedux";
 import { Navigate } from "react-router-dom";
 import { emptyCart, getCart } from "./cartRedux";
 
-
 export const login = async (dispatch, user, endpoint, navigate, context) => {
-    dispatch(loginStart());
-    try {
-      const res = await publicRequest.post(endpoint, user);
-      dispatch(loginSuccess(res.data));
-      toast.success("Login Successful");
-      if (context === "cart") {
-        navigate("/cart");
-        window.location.reload();
-      } if (context === "home") {
-        navigate("/");
-        window.location.reload();
-      }
-      else if (context === "profile") {
-        navigate("/");
-      }
-    } catch (err) {
-    console.log(err)
-      dispatch(loginFailure());
-      toast.error(err.response.data);
+  dispatch(loginStart());
+  try {
+    const res = await publicRequest.post(endpoint, user);
+    dispatch(loginSuccess(res.data));
+    toast.success("Login Successful");
+    if (context === "cart") {
+      navigate("/cart");
+      window.location.reload();
     }
-  };
+    if (context === "home") {
+      navigate("/");
+      window.location.reload();
+    } else if (context === "profile") {
+      navigate("/");
+    }
+  } catch (err) {
+    console.log(err);
+    dispatch(loginFailure());
+    toast.error(err.response.data);
+  }
+};
 
 export const logout = async (dispatch, user) => {
-    dispatch(logOut(user=null))
-}
+  dispatch(logOut((user = null)));
+};
 
 export const userUpdate = async (userId, data, navigate) => {
-    try {
-        await userRequest.post(`users/address/${userId}`, data).then(res => {
-            if(res.status === 200){
-                toast.success("Address Updated/Added");
-                navigate("/cart");
-                window.location.reload();
-            }else{
-                toast.error("Something went wrong");
-            }
-        });
-
-    } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-    }
-}
+  try {
+    await userRequest.post(`users/address/${userId}`, data).then((res) => {
+      if (res.status === 200) {
+        toast.success("Address Updated/Added");
+        navigate("/cart");
+        window.location.reload();
+      } else {
+        toast.error("Something went wrong");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+};
 
 export const magicLink = async (email, type, target) => {
   try {
@@ -107,35 +99,33 @@ export const passChange = async (id, token, pass) => {
 
 export const cartSave = async (data) => {
   try {
-    await userRequest.post('/cart', data).then(res => {
-      if(res.status === 200){
+    await userRequest.post("/cart", data).then((res) => {
+      if (res.status === 200) {
         toast.success("Cart Saved");
-      }else{
+      } else {
         toast.error("Something went wrong");
       }
     });
-  } catch (error) {
+  } catch (error) {}
+};
 
+export const getOrders = async (dispatch, id) => {
+  dispatch(getOrderStart());
+  try {
+    const res = await publicRequest.get(`orders/users/${id}`);
+    dispatch(getOrderSuccess(res.data));
+  } catch (err) {
+    dispatch(getOrderFailure());
   }
-}
-
-  export const getOrders = async (dispatch, id) => {
-    dispatch(getOrderStart());
-    try {
-      const res = await publicRequest.get(`orders/users/${id}`);
-      dispatch(getOrderSuccess(res.data));
-    } catch (err) {
-      dispatch(getOrderFailure());
-    }
-  };
+};
 
 export const newProducts = async () => {
   try {
-    await userRequest.get('products?new').then(res => {
+    await userRequest.get("products?new").then((res) => {
       if (res.status === 200) {
         console.log(res.data);
         return res.data;
-      }else{
+      } else {
         toast.error("Unable to fetch products");
       }
     });
@@ -143,27 +133,25 @@ export const newProducts = async () => {
     console.log(error);
     toast.error(error.message);
   }
-}
+};
 
-  export const createOrder = async (data) => {
-    try {
-        await userRequest.post(`orders`, data).then(res => {
-            if(res.status === 200){
-                console.log(res.data);
-                toast.success("Order Placed");
-            }else{
-                toast.error("Something went wrong! Check if you are logged in");
-            }
-        });
-    } catch (error) {
-
-    }
-  }
+export const createOrder = async (data) => {
+  try {
+    await userRequest.post(`orders`, data).then((res) => {
+      if (res.status === 200) {
+        console.log(res.data);
+        toast.success("Order Placed");
+      } else {
+        toast.error("Something went wrong! Check if you are logged in");
+      }
+    });
+  } catch (error) {}
+};
 
 export const verifySession = async (id, dispatch, navigate) => {
   try {
-    await userRequest.post(`session/verify/${id}`).then(res => {
-      if(res.status === 200){
+    await userRequest.post(`session/verify/${id}`).then((res) => {
+      if (res.status === 200) {
         if (res.data.paid === true) {
           toast.success("Order Placed");
           dispatch(emptyCart());
@@ -172,7 +160,7 @@ export const verifySession = async (id, dispatch, navigate) => {
           }, 3000);
           return true;
         }
-      }else{
+      } else {
         return false;
       }
     });
@@ -180,7 +168,7 @@ export const verifySession = async (id, dispatch, navigate) => {
     console.log(error);
     await verifySession(id, dispatch);
   }
-}
+};
 
 export const getReviews = async (_prodid) => {
   try {
@@ -189,26 +177,27 @@ export const getReviews = async (_prodid) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const leaveReview = async (_prodid, data) => {
   try {
-    await userRequest.put(`products/reviews/${_prodid}`, data).then(res => {
-      if(res.status === 200){
+    await userRequest.put(`products/reviews/${_prodid}`, data).then((res) => {
+      if (res.status === 200) {
         toast.success("Thank you for your review");
-      }else{
+      } else {
         toast.error("Cannot leave review");
       }
     });
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const checkoutSession = async (cartItems, userid, order) => {
   try {
     console.log(userid);
-    await userRequest.post(`session/checkout`, {
+    await userRequest
+      .post(`session/checkout`, {
         userId: userid,
         cartItems: cartItems,
         order: order,
@@ -227,46 +216,48 @@ export const checkoutSession = async (cartItems, userid, order) => {
   } catch (error) {
     return error;
   }
-}
+};
 
 export const getCartState = async (dispatch, id) => {
   try {
-    await userRequest.get(`cart/${id}`).then(res => {
+    await userRequest
+      .get(`cart/${id}`)
+      .then((res) => {
         // console.log(res);
         dispatch(getCart(res.data));
-    }).catch(err => {
-      console.log(err);
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 export const saveCart = async (data) => {
   try {
-    await userRequest.put(`cart/save`, data).then(res => {
+    await userRequest.put(`cart/save`, data).then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-      }else{
+      } else {
         toast.error("Something went wrong");
       }
     });
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteCart = async (id) => {
   try {
-    await userRequest.delete(`cart/delete/${id}`).then(res => {
+    await userRequest.delete(`cart/delete/${id}`).then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-      }else{
+      } else {
         toast.error("Something went wrong");
       }
     });
   } catch (error) {
     console.log(error);
   }
-}
-
+};

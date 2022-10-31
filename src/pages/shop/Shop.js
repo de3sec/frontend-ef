@@ -1,15 +1,7 @@
-import { useState } from 'react';
-import { ProductWrapper } from "../../components/Product/ProductWrapper"
-import styled from 'styled-components';
+import { useState } from "react";
+import { ProductWrapper } from "../../components/Product/ProductWrapper";
+import styled from "styled-components";
 import { mobile } from "../../responsive";
-
-
-
-
-//   const Title = styled.h1`
-//   margin: 20px;
-//   font-size: 40px;
-// `;
 
 const FilterContainer = styled.div`
   display: flex;
@@ -35,21 +27,25 @@ const Select = styled.select`
 `;
 
 const Option = styled.option``;
-  
-  export default function Shop() {
-    const [filters, setFilters] = useState({})
-    const [sort, setSort] = useState("newest")
 
-    const handleFilters = (e) => {
-      const value = e.target.value
-      setFilters([value])
-    }
-    return (
-      <div className="bg-white">
-              <FilterContainer>
+export default function Shop() {
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters([value]);
+  };
+  return (
+    <div className="bg-white">
+      <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select name='sizes' onChange={handleFilters} defaultValue={'default'}>
+          <Select
+            name="sizes"
+            onChange={handleFilters}
+            defaultValue={"default"}
+          >
             <Option value={"default"} disabled>
               Size
             </Option>
@@ -62,8 +58,11 @@ const Option = styled.option``;
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select onChange={e => setSort(e.target.value)} defaultValue={'default'}>
-          <Option value={"default"} disabled>
+          <Select
+            onChange={(e) => setSort(e.target.value)}
+            defaultValue={"default"}
+          >
+            <Option value={"default"} disabled>
               Sort By:
             </Option>
             <Option value="newest">Newest</Option>
@@ -72,7 +71,7 @@ const Option = styled.option``;
           </Select>
         </Filter>
       </FilterContainer>
-          <ProductWrapper type={"grid"} />
-        </div>
-    )
-  }
+      <ProductWrapper type={"grid"} />
+    </div>
+  );
+}

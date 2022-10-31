@@ -16,7 +16,7 @@ const ListCard = (props) => {
               <div class="absolute w-full h-full flex items-center justify-center">
                 <img
                   alt="Placeholder"
-                  class="absolute w-full h-full object-cover object-center"
+                  class="absolute w-full object-contain object-center"
                   src={productData.image[0].url}
                 ></img>
               </div>

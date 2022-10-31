@@ -1,21 +1,20 @@
-import { useState } from 'react'
-import { StarIcon } from '@heroicons/react/solid'
-import { RadioGroup } from '@headlessui/react'
-import GlobalButton from '../button/GlobalButton'
-import Horizontalimgscroll from '../carousel/horizontalimgscroll';
-import { useMediaQuery } from 'react-responsive';
-import Footer from '../Footer/Footer';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify'; 
-import { useDispatch } from 'react-redux';
-import { addProduct } from '../../redux/cartRedux';
-import Review from './Review';
-import { getReviews } from '../../redux/apiCalls';
-import { publicRequest } from '../../requestMethods';
-import Impact from './Impact';
-
+import { useState } from "react";
+import { StarIcon } from "@heroicons/react/solid";
+import { RadioGroup } from "@headlessui/react";
+import GlobalButton from "../button/GlobalButton";
+import Horizontalimgscroll from "../carousel/horizontalimgscroll";
+import { useMediaQuery } from "react-responsive";
+import Footer from "../Footer/Footer";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/cartRedux";
+import Review from "./Review";
+import { getReviews } from "../../redux/apiCalls";
+import { publicRequest } from "../../requestMethods";
+import Impact from "./Impact";
 
 // const product = {
 //   name: 'Basic Tee 6-Pack',
@@ -71,81 +70,75 @@ import Impact from './Impact';
 // const reviews = { href: '#', average: 4, totalCount: 117 }
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function ProductView() {
   const location = useLocation();
-  const id = location.pathname.split('/')[2]
+  const id = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
-  const [selectedColor, setSelectedColor] = useState([])
-  const [selectedSize, setSelectedSize] = useState([])
+  const [selectedColor, setSelectedColor] = useState([]);
+  const [selectedSize, setSelectedSize] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [reviews, setReview] = useState({});
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     const getProduct = async () => {
       try {
-        await publicRequest.get(`products/find/${id}`).then(
-          (res) => { 
-            setProduct(res.data);
-            setSelectedColor(res.data.colors[0])
-            setSelectedSize(res.data.sizes[0])
-            getReviews(res.data._id).then((res) => {
-              console.log(res);
-              setReview(res);
-            }
-            );
-          }
-        );
-
+        await publicRequest.get(`products/find/${id}`).then((res) => {
+          setProduct(res.data);
+          setSelectedColor(res.data.colors[0]);
+          setSelectedSize(res.data.sizes[0]);
+          getReviews(res.data._id).then((res) => {
+            console.log(res);
+            setReview(res);
+          });
+        });
       } catch (error) {
-        toast.error("Something Went Wrong!")
+        toast.error("Something Went Wrong!");
       }
     };
     getProduct();
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, [id]);
 
   const handleQuantity = (type) => {
     if (type === "dec") {
-      quantity > 1 && setQuantity(quantity - 1)
+      quantity > 1 && setQuantity(quantity - 1);
     } else {
-      setQuantity(quantity + 1)
+      setQuantity(quantity + 1);
     }
-  }
+  };
 
   const discountPercnt = (saleprice, actualprice) => {
-      const diff = Math.abs(actualprice);
-    const discount = (saleprice - actualprice) / diff * 100;
+    const diff = Math.abs(actualprice);
+    const discount = ((saleprice - actualprice) / diff) * 100;
     return Math.round(discount);
-
-  }
+  };
   console.log(discountPercnt(product.pprice, product.aprice));
-    const handleClick = () => {
-      if (product.colors.length === 0 || product.sizes.length === 0) {
+  const handleClick = () => {
+    if (product.colors.length === 0 || product.sizes.length === 0) {
+      dispatch(
+        addProduct({ ...product, quantity, selectedColor, selectedSize })
+      );
+    }
+    if (product.colors.length !== 0 && product.sizes.length !== 0) {
+      if (selectedColor.length !== 0 && selectedSize.length !== 0) {
         dispatch(
           addProduct({ ...product, quantity, selectedColor, selectedSize })
         );
+      } else {
+        toast.error("Please Select Color and Size");
       }
-      if (product.colors.length !== 0 && product.sizes.length !== 0) { 
-        if (selectedColor.length !== 0 && selectedSize.length !== 0) {
-          dispatch(
-            addProduct({ ...product, quantity, selectedColor, selectedSize })
-          );
-        } else {
-          toast.error("Please Select Color and Size")
-        }
-      }
-    console.log(quantity)
     }
+    console.log(quantity);
+  };
 
   const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-width: 980px)'
+    query: "(min-width: 980px)",
   });
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 980px)' })
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 980px)" });
 
   return (
     <div className="bg-white">

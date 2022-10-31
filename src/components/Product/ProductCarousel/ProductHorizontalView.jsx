@@ -33,16 +33,16 @@ const ProductHorizontalView = ({ category }) => {
     getProducts();
   }, [category]);
 
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
-  const isMdScreen = useMediaQuery({ query: "(min-width: 768px)" });
+  const isMdScreen = useMediaQuery({ query: "(min-width: 708px)" });
+  const isAverage = useMediaQuery({ query: "(min-width: 500px)" });
 
   let totalSlide = () => {
     if (isBigScreen) return 6;
-    else if (isDesktopOrLaptop) return 4;
+    else if (isDesktopOrLaptop) return 5;
     else if (isMdScreen) return 3;
+    else if (isAverage) return 2;
     else return 1;
   };
 
@@ -58,11 +58,12 @@ const ProductHorizontalView = ({ category }) => {
       naturalSlideHeight={500}
     >
       <div className="bg-lightgreen/40">
-        <div className="mx-auto my-auto max-w-2xl py-8 h-full px-1 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 relative">
-          <h2 className="mb-4 ml-4 text-black underline underline-offset-4">
+        <div className="mx-auto my-auto h-full relative">
+          <h2 className="text-center pt-3 text-black text-3xl underline underline-offset-4">
             New Arrivals &rarr;
           </h2>
-          <Slider className="mx-10">
+          <br></br>
+          <Slider className="mx-4 lg:mx-8">
             {products &&
               products.map((product) => (
                 <Slide index={product._id} key={product._id}>
@@ -70,7 +71,8 @@ const ProductHorizontalView = ({ category }) => {
                 </Slide>
               ))}
           </Slider>
-          <ButtonBack className="buttonBack w-11 h-11 ml-2 shrink-0 grow-0 rounded-full bg-blue">
+          <br></br>
+          <ButtonBack className="buttonBack opacity-50 w-11 h-11 ml-2 shrink-0 grow-0 rounded-full bg-blue">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -86,7 +88,7 @@ const ProductHorizontalView = ({ category }) => {
               />
             </svg>
           </ButtonBack>
-          <ButtonNext className="buttonNext w-11 h-11 shrink-0 grow-0 mr-2 rounded-full bg-blue">
+          <ButtonNext className="buttonNext opacity-50 w-11 h-11 shrink-0 grow-0 mr-2 rounded-full bg-blue">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -104,6 +106,7 @@ const ProductHorizontalView = ({ category }) => {
           </ButtonNext>
         </div>
       </div>
+      <br />
     </CarouselProvider>
   );
 };

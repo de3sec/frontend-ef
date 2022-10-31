@@ -1,10 +1,7 @@
 import React from "react";
 import { ArrowCircleRightIcon } from "@heroicons/react/outline";
 
-const ProductCard = ({product}) => {
-
- 
-
+const ProductCard = ({ product }) => {
   return (
     <>
       {/* <div className="card bg-white text-gray-700 w-72 border overflow-hidden">
@@ -39,22 +36,22 @@ const ProductCard = ({product}) => {
           </div>
         </div>
       </div> */}
-      <div className="flex p-12 items-center justify-items-center">
+      <div className="flex p-10 items-center justify-items-center h-full">
         <a
           key={product._id}
           href={`/product/${product._id}`}
-          className="border w-full p-1 border-transparent rounded-md shadow-sm bg-beige"
+          className="border w-full p-3 md:p-2 border-transparent rounded-md shadow-sm bg-beige"
         >
-          <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg xl:aspect-w-8 xl:aspect-h-7">
+          <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden xl:aspect-w-8 xl:aspect-h-7">
             <img
               src={product.image[0].url}
               alt={product.pname}
-              className="h-full w-full object-cover object-center group-hover:opacity-75"
+              className="absolute w-full object-contain object-center"
             />
           </div>
-          <div className="flex flex-col items-center justify-items-center">
-            <h3 className="mt-4 text-sm text-gray-700">{product.pname}</h3>
-            <p className="mt-1 text-xl text-blue font-medium text-gray-900">
+          <div className="flex flex-col items-start justify-items-center px-3">
+            <h3 className="text-sm text-gray-700 my-2">{product.pname}</h3>
+            <p className="text-xl my-1 text-blue font-medium text-gray-900">
               ₹{product.pprice}
             </p>
             {product.aprice && (
@@ -62,7 +59,7 @@ const ProductCard = ({product}) => {
                 ₹{product.aprice}
               </p>
             )}
-            <span className="text-black bg-white p-2 items-center justify-center w-full text-sm inline-flex">
+            <span className="text-black bg-white p-2 items-center justify-center w-full text-sm inline-flex my-2 border">
               <small className="uppercase text-sm text-blue">
                 View Product
               </small>

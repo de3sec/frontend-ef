@@ -26,10 +26,10 @@ const userSlice = createSlice({
     },
     addressUpdate: (state, action) => {
       state.currentUser.addresses = action.payload;
-    }
-
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logOut, addressUpdate } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logOut, addressUpdate } =
+  userSlice.actions;
 export default userSlice.reducer;

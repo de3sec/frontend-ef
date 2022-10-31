@@ -8,21 +8,25 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import cartReducer from "./cartRedux";
 import userReducer from "./userRedux";
 import productReducer, { productsFetch } from "./productRedux";
 import orderReducer from "./orderRedux";
 
-
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-}
+};
 
-const reducers = combineReducers({ user: userReducer, cart: cartReducer, product: productReducer, order: orderReducer });
+const reducers = combineReducers({
+  user: userReducer,
+  cart: cartReducer,
+  product: productReducer,
+  order: orderReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
@@ -34,7 +38,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-})
+});
 
 store.dispatch(productsFetch());
-export let persistor = persistStore(store)
+export let persistor = persistStore(store);

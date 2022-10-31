@@ -1,13 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { Fragment, useState, useEffect } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon, UserIcon } from '@heroicons/react/outline'
-import Logo from '../../assets/eflogo.svg';
-import ProfileCard from './ProfileCard/ProfileCard'
-import { Search } from '../search/search';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import './header.css';
+import { Fragment, useState, useEffect } from "react";
+import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import {
+  MenuIcon,
+  SearchIcon,
+  ShoppingBagIcon,
+  XIcon,
+  UserIcon,
+} from "@heroicons/react/outline";
+import Logo from "../../assets/eflogo.svg";
+import ProfileCard from "./ProfileCard/ProfileCard";
+import { Search } from "../search/search";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./header.css";
 
 const navigation = {
   categories: [
@@ -192,17 +198,15 @@ const navigation = {
 };
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [search, searchOpen] = useState(false);
   const [profile, setProfile] = useState(false);
-  const cartQty = useSelector(state => state.cart.quantity);
-  const userLogged = useSelector( state => state.user.currentUser);
-  
-  
+  const cartQty = useSelector((state) => state.cart.quantity);
+  const userLogged = useSelector((state) => state.user.currentUser);
 
   return (
     <div className="bg-blue">
@@ -363,20 +367,20 @@ export default function Header() {
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div className="flow-root">
                   <Link to="/login" state={"home"}>
-                    {
-                      userLogged === null && <button className="-m-2 p-2 block font-medium text-gray-900">
-                      Sign in
-                    </button>
-                    }
+                    {userLogged === null && (
+                      <button className="-m-2 p-2 block font-medium text-gray-900">
+                        Sign in
+                      </button>
+                    )}
                   </Link>
                 </div>
                 <div className="flow-root">
                   <Link to="/signup" state={"home"}>
-                    {
-                      userLogged === null && <button className="-m-2 p-2 block font-medium text-gray-900">
-                      Create account
-                    </button>
-                    }
+                    {userLogged === null && (
+                      <button className="-m-2 p-2 block font-medium text-gray-900">
+                        Create account
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>
@@ -434,11 +438,11 @@ export default function Header() {
                 EcoFreaky | 🌍 Marketplace for enviornment friendly products.
               </marquee>
             </div>
-            <div className="p-2 grid items-end justify-items-end mx-2">
+            <div className="social-media-icons p-2 grid items-end justify-items-end mx-2">
               <ul className="flex ml-1 lg:px-2">
                 <li className="mr-2 shadow-md shadow-slate-500 rounded-full w-6 h-6 bg-indigo-600">
                   <a
-                    className="pt-3 ml-1 mb-2 px-1 fa fa-md fa-facebook"
+                    className="pt-2 ml-1 mb-2 px-1 fa fa-md fa-facebook"
                     href="https://www.facebook.com/EcoFreaky"
                   ></a>
                 </li>
@@ -461,13 +465,13 @@ export default function Header() {
 
         <nav
           aria-label="Top"
-          className="max-w-7xl mx-auto px-4 sm:px-6 md:px-2 lg:px-4"
+          className="max-w-7xl mx-auto px-2 sm:px-4 md:px-2 lg:px-4"
         >
           <div className="border-b border-black">
             <div className="h-16 flex items-center md:px-8 lg:px-0">
               <button
                 type="button"
-                className="bg-green p-2 rounded-full text-gray-400 lg:hidden"
+                className="bg-green p-1 rounded-full text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <MenuIcon className="p-1 h-6 w-6" aria-hidden="true" />
@@ -680,10 +684,11 @@ export default function Header() {
                     </Transition.Child>
                   </Dialog>
                 </Transition.Root>
+
                 <div className="flex flex-col">
                   <button
                     type="button"
-                    className="p-2 lg:px-8 bg-lightgreen rounded-full text-black flex flex-row"
+                    className="p-1 mx-2 lg:px-8 bg-lightgreen rounded-full text-black flex flex-row"
                     onClick={() => searchOpen(true)}
                   >
                     <h1 className="p-1">Search</h1>
@@ -744,16 +749,16 @@ export default function Header() {
                     <div className="flex flex-col">
                       <button
                         type="button"
-                        className="p-2 lg:mr-2 bg-lightgreen rounded-full text-black flex flex-row"
+                        className="p-2 mx-1 lg:mx-4 bg-lightgreen rounded-full text-black flex flex-row"
                         onClick={() => setProfile(true)}
                       >
                         <h1 className="p-1 hidden">Account</h1>
-                        <UserIcon className="m-1 w-4 h-6" aria-hidden="true" />
+                        <UserIcon className="m-1 w-3 h-3" aria-hidden="true" />
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="hidden ml-4 lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-4">
+                  <div className="hidden mx-4 lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-4">
                     <Link to="/login" state={"home"}>
                       <button className="font-medium text-white">
                         Sign in
@@ -764,16 +769,17 @@ export default function Header() {
                 )}
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-3">
+                <div className="cartContainer">
                   <Link to="/cart">
-                    <span className="ml-2 text-sm font-medium text-lightgreen group-hover:text-gray-800">
+                    <span className="itemsCount text-sm font-medium text-lightgreen group-hover:text-gray-800">
                       {cartQty}
                     </span>
 
                     <ShoppingBagIcon
-                      className="flex-shrink-0 h-6 w-6 text-white group-hover:text-gray-500"
+                      className="flex-shrink-0 h-8 w-8 text-white group-hover:text-gray-500"
                       aria-hidden="true"
                     />
+
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
                 </div>

@@ -2,12 +2,12 @@ import React from "react";
 const testimonials = [
   {
     id: 1,
+    name: "Subhajit Mukherjee",
     image:
-      "https://ik.imagekit.io/de3sec/assets/Recycle_Man_on_India_7Cfnq6Z5e.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254289",
-    name: "Binish Desai",
-    designation: "Recycle Man Of India",
+      "https://ik.imagekit.io/de3sec/assets/Subhajit_Mukherjee__KJasOtr2.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254280",
+    designation: "Mission Green Mumbai",
     testimonial:
-      "I have always wanted a one-stop marketplace for sustainable products to cut down the hassle of scouring the internet for sustainable products. And Ecofreaky is just that.",
+      "I believe that this concept has great potential and my goal of living an eco-friendly life has now become a real possibility.",
   },
   {
     id: 2,
@@ -29,12 +29,12 @@ const testimonials = [
   },
   {
     id: 4,
-    name: "Subhajit Mukherjee",
     image:
-      "https://ik.imagekit.io/de3sec/assets/Subhajit_Mukherjee__KJasOtr2.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254280",
-    designation: "Mission Green Mumbai",
+      "https://ik.imagekit.io/de3sec/assets/Recycle_Man_on_India_7Cfnq6Z5e.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254289",
+    name: "Binish Desai",
+    designation: "Recycle Man Of India",
     testimonial:
-      "I believe that this concept has great potential and my goal of living an eco-friendly life has now become a real possibility.",
+      "I have always wanted a one-stop marketplace for sustainable products to cut down the hassle of scouring the internet for sustainable products. And Ecofreaky is just that.",
   },
 ];
 export default function Testimonials() {
@@ -43,7 +43,7 @@ export default function Testimonials() {
       <div className="container mx-auto px-4 lg:px-6">
         <div className="md:flex md:flex-wrap md:-mx-4 mb-4">
           {testimonials.map((testimonial, index) => (
-            <div className="md:w-1/2 md:px-4 mt-6" key={index}>
+            <div className="h-full md:w-1/2 md:px-4 mt-6" key={index}>
               <div className="testimonial p-6 border-2 border-solid flex bg-lightgreen hover:border-black hover:bg-white transition-colors duration-300">
                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden mr-4 md:mr-6 flex-shrink-0">
                   <img
