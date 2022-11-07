@@ -19,7 +19,7 @@ export default function Footer() {
             <div className="w-full md:w-2/6 md:border-r md:border-green px-4">
               <div className="max-w-xs mx-auto py-20">
                 <a
-                  className="inline-block text-xl text-white font-medium font-heading mb-8 md:mb-32"
+                  className="inline-block text-xl text-white font-medium font-heading mb-2 md:mb-6"
                   href="/"
                 >
                   <img className="h-12" src={Logo} alt="" width="auto" />
@@ -33,12 +33,12 @@ export default function Footer() {
             <div className="w-full md:w-4/6 px-4">
               <div className="md:py-20 px-8 lg:pl-20 lg:pr-10">
                 <div className="flex flex-wrap -mx-4">
-                  <div className="w-1/2 md:w-1/4 px-4 mb-12 md:mb-0">
+                  <div className="w-1/2 md:w-1/4 mb-12 md:mx-4 md:mb-0">
                     <h3 className="mb-8 text-sm text-white uppercase font-heading">
                       Contact
                     </h3>
                     <ul>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           href="mailto:support@ecofreaky.com"
                           className="ml-2 text-white hover:text-green"
@@ -46,7 +46,7 @@ export default function Footer() {
                           Returns
                         </a>
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           href="mailto:team@ecofreaky.com"
                           className="ml-2 text-white hover:text-green"
@@ -64,12 +64,12 @@ export default function Footer() {
                         </li> */}
                     </ul>
                   </div>
-                  <div className="w-1/2 md:w-1/4 px-4 mb-12 md:mb-0">
+                  <div className="w-1/2 md:w-1/4 md:px-4 mb-12 md:mb-0">
                     <h3 className="mb-8 text-sm text-white uppercase font-heading">
                       Pages
                     </h3>
                     <ul>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         {userLogged !== null ? (
                           <a
                             className="text-white hover:text-gray-400"
@@ -87,7 +87,7 @@ export default function Footer() {
                           </a>
                         )}
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         {userLogged !== null ? (
                           <p></p>
                         ) : (
@@ -109,12 +109,12 @@ export default function Footer() {
                       </li>
                     </ul>
                   </div>
-                  <div className="w-1/2 md:w-1/4 px-4">
+                  <div className="w-1/2 md:w-1/4 md:px-4">
                     <h3 className="mb-8 text-sm text-white uppercase font-heading">
                       Legal
                     </h3>
                     <ul>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           className="text-white hover:text-gray-400"
                           href="/tos"
@@ -122,7 +122,7 @@ export default function Footer() {
                           Terms
                         </a>
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           className="text-white hover:text-gray-400"
                           href="/about"
@@ -130,7 +130,7 @@ export default function Footer() {
                           About Us
                         </a>
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           className="text-white hover:text-gray-400"
                           href="/team"
@@ -138,7 +138,7 @@ export default function Footer() {
                           Team
                         </a>
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           className="text-white hover:text-gray-400"
                           href="/privacy"
@@ -146,7 +146,7 @@ export default function Footer() {
                           Privacy
                         </a>
                       </li>
-                      <li className="mb-8">
+                      <li className="mb-4 md:mb-8">
                         <a
                           className="text-white hover:text-gray-400"
                           href="/returns"

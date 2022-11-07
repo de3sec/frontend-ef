@@ -26,7 +26,6 @@ export const Profile = () => {
     };
     fetchStates();
   }, []);
-  
 
   const {
     register,
@@ -60,11 +59,11 @@ export const Profile = () => {
     const addresses = [{ name, email, city, phone, pincode, state, address }];
     await userUpdate(user?._id, addresses, navigate);
   };
-    const handleState = (event) => { 
-        event.preventDefault();
+  const handleState = (event) => {
+    event.preventDefault();
     const value = event.target.value;
     setStateValue(value);
-    }
+  };
   return (
     <div className="w-full p-10 flex justify-center">
       <form
@@ -110,8 +109,8 @@ export const Profile = () => {
           </label>
           <input
             {...register("phone", {
-                required: true,
-                placeholder: "+91",
+              required: true,
+              placeholder: "+91",
               maxLength: 10,
               pattern: /[6789][0-9]{9}/i,
             })}

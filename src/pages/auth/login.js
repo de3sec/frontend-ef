@@ -1,29 +1,41 @@
 // import axios from "axios";
 // import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/apiCalls";
-import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import { loginFailure } from "../../redux/userRedux";
 
-
+import { login } from "../../redux/apiCalls";
 
 const Login = () => {
-  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.user.currentUser)
+
+  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.currentUser);
+  const errorMessage = useSelector((state) => state.user.errorMessage);
+  console.log(errorMessage);
+
   useEffect(() => {
-    if(user !== null){
+    if (user !== null) {
       navigate("/");
     } else {
-      return
+      // reset error to default
+      dispatch(loginFailure(""));
+      return;
     }
-  })
-  const { register, handleSubmit, watch, formState: { errors } } = useForm(); 
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   console.log(location.state);
 
   // const dbAuth = async (token, user) => {
@@ -35,18 +47,17 @@ const Login = () => {
   //         token,
   //       }
   //     }
-  //   ).then((res) => 
+  //   ).then((res) =>
   //     setId(res.data._id)).then(() => {
   //     dispatch(loginSuccess({...user, id}));
   //   })
-    
+
   // }
 
-  const loginHandler = async (event) => {
-    event.preventDefault();
-    const body = { email, password }
+  const loginHandler = async () => {
+    const body = { email, password };
     login(dispatch, body, `users/signin`, navigate, location?.state);
-   }
+  };
 
   // const handleClick = async (event) => {
   //   event.preventDefault();
@@ -114,8 +125,6 @@ const Login = () => {
   //     });
 
   // }
-
-
 
   return (
     <div>
@@ -501,7 +510,11 @@ const Login = () => {
                           Email
                         </label>
                         <input
-                          {...register("email", { required: true })}
+                          {...register("email", {
+                            required: true,
+                            pattern:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          })}
                           type="email"
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Email"
@@ -509,10 +522,12 @@ const Login = () => {
                           value={email}
                           style={{ transition: "all .15s ease" }}
                         />
-                        <span className="text-small mt-4 p-3 text-brown">
-                          {errors.email?.type === "required" &&
-                            "Email is required"}
-                        </span>
+                        <div className="text-rose-500 mt-1">
+                          {errors.email?.type === "required"
+                            ? "Please enter your email address"
+                            : errors.email?.type === "pattern" &&
+                              "Please enter a valid email address"}
+                        </div>
                       </div>
 
                       <div className="relative w-full mb-3">
@@ -530,11 +545,19 @@ const Login = () => {
                           onChange={(e) => setPassword(e.target.value)}
                           style={{ transition: "all .15s ease" }}
                         />
-                        <span className="text-small mt-4 p-3 text-brown">
+                        <div className="text-rose-500 mt-1">
                           {errors.password?.type === "required" &&
-                            "Password is required"}
-                        </span>
+                            "Please enter password"}
+                        </div>
                       </div>
+
+                      {/* Server-Side Error */}
+                      {errorMessage && (
+                        <div className="text-rose-500 mt-1">{errorMessage}</div>
+                      )}
+
+                      {/* Server-Side Error */}
+
                       {/* <div>
                         <label className="inline-flex items-center cursor-pointer">
                           <input
@@ -552,10 +575,10 @@ const Login = () => {
                       <div className="text-center mt-6">
                         <button
                           className="bg-blue text-lightgreen bg-opacity-80 active:bg-blue text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                          type="button"
+                          type="submit"
                           style={{ transition: "all .15s ease" }}
-                          onClick={(e) => {
-                            loginHandler(e);
+                          onClick={() => {
+                            handleSubmit(loginHandler);
                           }}
                         >
                           Sign In
@@ -572,6 +595,7 @@ const Login = () => {
                         </Link>
                       </div>
                     </form>
+
                     <div className="w-1/2 pt-2 px-1">
                       <a
                         href="/resetpassword"
@@ -609,6 +633,6 @@ const Login = () => {
       </main>
     </div>
   );
-}
+};
 
 export default Login;

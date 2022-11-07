@@ -36,6 +36,7 @@ export default function Cart() {
   // console.log(cart.products);
 
   const [getAddress, setAddress] = useState({});
+
   const checkout = () => {
     const data = {
       products: cart.products,
@@ -153,9 +154,9 @@ export default function Cart() {
                           <p className="text-lg font-semibold">
                             ₹{product.pprice}
                           </p>
-                          <p className="text-sm line-through dark:text-coolGray-600">
+                          {/* <p className="text-sm line-through dark:text-coolGray-600">
                             ₹{product.aprice}
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                       <div className="flex text-sm divide-x">

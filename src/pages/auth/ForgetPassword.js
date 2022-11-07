@@ -2,21 +2,28 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { magicLink, passChange } from "../../redux/apiCalls";
 import { publicRequest, userRequest } from "../../requestMethods";
+import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
+
   const validateEmail = (emailVal) => {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(emailVal).toLowerCase());
   };
+
   const onSubmit = (email) => {
     if (validateEmail(email)) {
       magicLink(email, "reset", "user");
+      navigate("/");
     } else {
       return toast.error("Invalid Email");
     }
   };
+
   return (
     <div className="font-mono bg-gray-400 w-full h-full">
       <div className="container mx-auto">
@@ -28,8 +35,7 @@ const ForgetPassword = () => {
                 backgroundImage:
                   "url('https://images.unsplash.com/photo-1574676130659-a1d0dd4791fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80')",
               }}
-            >
-            </div>
+            ></div>
 
             <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
               <div className="px-8 mb-4 text-center">
@@ -90,10 +96,14 @@ const ForgetPassword = () => {
 };
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
   const token = window.location.pathname.split("/")[3];
   const id = window.location.pathname.split("/")[2];
+
   const [error, setError] = useState(false);
   const [auth, setAuth] = useState(false);
 
@@ -127,6 +137,7 @@ const ResetPassword = () => {
         passChange(id, token, pass);
         setError(false);
         toast.success("Password Changed Successfully");
+        return navigate("/");
       } else {
         toast.error("Password doesn't match");
       }

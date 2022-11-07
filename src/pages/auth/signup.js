@@ -1,40 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import { toast } from "react-toastify";
 // import { auth } from "../../firebase";
-import 'react-toastify/dist/ReactToastify.min.css';
+import "react-toastify/dist/ReactToastify.min.css";
 // import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { loginStart, loginFailure, loginSuccess } from "../../redux/userRedux"; 
+import { useDispatch, useSelector } from "react-redux";
+import { loginStart, loginFailure, loginSuccess } from "../../redux/userRedux";
 import { login } from "../../redux/apiCalls";
 import { useForm } from "react-hook-form";
 
-
-
 const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const dispatch = useDispatch()
   const [user, setUser] = useState({});
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const errorMessage = useSelector((state) => state.user.errorMessage);
+
+  useEffect(() => {
+    // reset error to default
+    dispatch(loginFailure(""));
+    return;
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  console.log(errors);
 
   const dbAuth = async (token) => {
     const data = await axios.post(
       process.env.REACT_APP_BASE_URL + `users/fbauth`,
       {},
       {
-        headers:{
+        headers: {
           token,
-        }
+        },
       }
-    )
-    setUser(data?.data)
-    console.log(user)
-  }
+    );
+    setUser(data?.data);
+    console.log(user);
+  };
 
   // const handleClick = async (event) => {
   //   event.preventDefault();
@@ -65,11 +79,11 @@ const SignUp = () => {
   //     })
   // }
 
-  const loginHandler = async () => {
-    const body = { name, email, password }
-    login(dispatch, body, `users/register`, navigate, "cart")
+  const registerHandler = async () => {
+    const body = { name, email, password };
+    login(dispatch, body, `users/register`, navigate, "cart");
     // console.log(body);
-   }
+  };
 
   // const googleSignIn = () => {
   //   const provider = new GoogleAuthProvider()
@@ -451,7 +465,7 @@ const SignUp = () => {
               </svg>
             </div>
           </div>
-          <div className="container mx-auto px-4 h-full">
+          <div className="container mx-auto px-4">
             <div className="flex content-center items-center justify-center h-full">
               <div className="w-full lg:w-4/12 px-4">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-lightgreen border-0">
@@ -494,7 +508,8 @@ const SignUp = () => {
                     <div className="text-gray-500 text-center mb-3 font-bold">
                       {/* <small>Or sign in with credentials</small> */}
                     </div>
-                    <form onSubmit={handleSubmit(loginHandler)}>
+
+                    <form onSubmit={handleSubmit(registerHandler)}>
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -503,7 +518,10 @@ const SignUp = () => {
                           Full Name
                         </label>
                         <input
-                          {...register("name", { required: true })}
+                          {...register("name", {
+                            required: true,
+                            pattern: /^[A-Za-z]+$/i,
+                          })}
                           type="text"
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Full name"
@@ -511,10 +529,12 @@ const SignUp = () => {
                           style={{ transition: "all .15s ease" }}
                           autoFocus
                         />
-                        <span className="text-small mt-4 p-3 text-brown">
-                          {errors.name?.type === "required" &&
-                            "Please enter your name"}
-                        </span>
+                        <div className="text-rose-500 mt-1">
+                          {errors.name?.type === "required"
+                            ? "Please enter your name"
+                            : errors.name?.type === "pattern" &&
+                              "Please enter alphabetical characters only"}
+                        </div>
                       </div>
 
                       <div className="relative w-full mb-3">
@@ -525,17 +545,23 @@ const SignUp = () => {
                           Email
                         </label>
                         <input
-                          {...register("email", { required: true })}
+                          {...register("email", {
+                            required: true,
+                            pattern:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          })}
                           type="email"
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Email"
                           onChange={(e) => setEmail(e.target.value)}
                           style={{ transition: "all .15s ease" }}
                         />
-                        <span className="text-small mt-4 p-3 text-brown">
-                          {errors.email?.type === "required" &&
-                            "Email is required"}
-                        </span>
+                        <div className="text-rose-500 mt-1">
+                          {errors.email?.type === "required"
+                            ? "Please enter your email address"
+                            : errors.email?.type === "pattern" &&
+                              "Please enter a valid email address"}
+                        </div>
                       </div>
 
                       <div className="relative w-full mb-3">
@@ -546,17 +572,22 @@ const SignUp = () => {
                           Password
                         </label>
                         <input
-                          {...register("password", { required: true })}
+                          {...register("password", {
+                            required: true,
+                            minLength: 6,
+                          })}
                           type="password"
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Password"
                           style={{ transition: "all .15s ease" }}
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <span className="text-small mt-4 p-3 text-brown">
-                          {errors.password?.type === "required" &&
-                            "Password is required"}
-                        </span>
+                        <div className="text-rose-500 mt-1">
+                          {errors.password?.type === "required"
+                            ? "Please enter password"
+                            : errors.password?.type === "minLength" &&
+                              "Password must contain at least 6 characters"}
+                        </div>
                       </div>
                       {/* <div>
                         <label className="inline-flex items-center cursor-pointer">
@@ -572,6 +603,11 @@ const SignUp = () => {
                         </label>
                       </div> */}
 
+                      {/* Server-Side Error */}
+                      {errorMessage && (
+                        <div className="text-rose-500 mt-1">{errorMessage}</div>
+                      )}
+
                       <div className="text-center mt-6">
                         {/* <button
                           className="bg-blue text-lightgreen bg-opacity-80 active:bg-blue text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
@@ -586,13 +622,14 @@ const SignUp = () => {
                           type="submit"
                           style={{ transition: "all .15s ease" }}
                           onClick={() => {
-                            handleSubmit(loginHandler);
+                            handleSubmit(registerHandler);
                           }}
                         >
                           create new account
                         </button>
                       </div>
                     </form>
+
                     <div className="w-1/2 pt-2 px-1">
                       <Link to="/Login">
                         <small className="underline decoration-solid hover:decoration-wavy">
@@ -628,6 +665,6 @@ const SignUp = () => {
       </main>
     </div>
   );
-}
+};
 
 export default SignUp;

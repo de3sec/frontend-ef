@@ -3,19 +3,22 @@ import { publicRequest, userRequest } from "../requestMethods";
 import { toast } from "react-toastify";
 
 import { getOrderStart, getOrderSuccess, getOrderFailure } from "./orderRedux";
-import { Navigate } from "react-router-dom";
 import { emptyCart, getCart } from "./cartRedux";
 
 export const login = async (dispatch, user, endpoint, navigate, context) => {
   dispatch(loginStart());
   try {
     const res = await publicRequest.post(endpoint, user);
+
     dispatch(loginSuccess(res.data));
+
     toast.success("Login Successful");
+
     if (context === "cart") {
       navigate("/cart");
       window.location.reload();
     }
+
     if (context === "home") {
       navigate("/");
       window.location.reload();
@@ -23,9 +26,9 @@ export const login = async (dispatch, user, endpoint, navigate, context) => {
       navigate("/");
     }
   } catch (err) {
-    console.log(err);
-    dispatch(loginFailure());
-    toast.error(err.response.data);
+    // console.log(err);
+    dispatch(loginFailure(err.response.data));
+    // toast.error(err.response.data);
   }
 };
 
